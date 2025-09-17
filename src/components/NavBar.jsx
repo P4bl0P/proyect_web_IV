@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import logo from "../assets/logoIV.jpeg";
 
 function NavButton({ text, to }) {
@@ -11,6 +12,11 @@ function NavButton({ text, to }) {
     </Link>
   );
 }
+
+NavButton.propTypes = {
+  text: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
+};
 
 
 export default function Navbar() {
