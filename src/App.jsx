@@ -1,15 +1,18 @@
-import HomePage from "./components/HomePage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomeScreen from "./screens/HomeScreen";
+import AboutScreen from "./screens/AboutScreen";
+import ContactScreen from "./screens/ContactScreen";
 import "./App.css";
 
 function App() {
   return (
-    <>
-      <h1 className="text-center mb-5 my-bold">
-        Desarrollo un <span style={{ color: "#7366ff" }}>CRUD Full Stack </span>
-        con Node.js, Express, MySQL, API REST y ReactJS
-      </h1>
-      <HomePage />
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomeScreen />} />
+        <Route path="/about" element={<AboutScreen />} />
+        <Route path="/contact" element={<ContactScreen />} />
+      </Routes>
+    </Router>
   );
 }
 

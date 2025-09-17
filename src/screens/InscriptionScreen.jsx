@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Titulo from "./Titulo";
-import ListAlumno from "./ListAlumno";
-import FormularioAlumno from "./FormularioAlumno";
-import FormularioEditarAlumno from "./FormularioEditarAlumno";
+import Titulo from "../components/Titulo";
+import ListAlumno from "../components/ListAlumno";
+import FormularioAlumno from "../components/FormularioAlumno";
+import FormularioEditarAlumno from "../components/FormularioEditarAlumno";
 
 /** Alertas con React Toastify */
 import { ToastContainer, toast } from "react-toastify";
