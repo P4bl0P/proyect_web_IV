@@ -33,7 +33,7 @@ export default function Navbar() {
 
         {/* Botones de navegación */}
         <div className="flex space-x-4">
-          <NavButton text="Inicio" to="/" />
+          <NavButton text="Inicio" to="/home" />
           <NavButton text="Conócenos" to="/about" />
           <NavButton text="Contacto" to="/contact" />
         </div>
