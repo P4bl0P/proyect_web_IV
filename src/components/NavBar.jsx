@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import logo from "../assets/logoIV.jpeg";
+import loginIcon from "../assets/flor_lis.png";
 
 function NavButton({ text, to }) {
   return (
@@ -9,6 +10,18 @@ function NavButton({ text, to }) {
       className="text-white hover:bg-indigo-500 px-4 py-2 rounded transition-colors"
     >
       {text}
+    </Link>
+  );
+}
+
+function LoginButton() {
+  return (
+    <Link to="/login">
+      <img 
+        src={loginIcon} 
+        alt="Login" 
+        className="h-8 cursor-pointer hover:scale-110 transition-transform duration-200"
+      />
     </Link>
   );
 }
@@ -36,6 +49,7 @@ export default function Navbar() {
           <NavButton text="Inicio" to="/home" />
           <NavButton text="Conócenos" to="/about" />
           <NavButton text="Contacto" to="/contact" />
+          <LoginButton />
         </div>
       </div>
     </nav>

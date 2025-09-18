@@ -6,7 +6,7 @@ import {
   crearAlumno,
   actualizarAlumno,
   eliminarAlumno,
-} from "../ControllerAlumno.js";
+} from "../controllers/ControllerAlumno.js";
 
 // Configura el enrutador de Express
 const router = express.Router();

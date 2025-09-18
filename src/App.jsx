@@ -3,6 +3,7 @@ import HomeScreen from "./screens/HomeScreen";
 import AboutScreen from "./screens/AboutScreen";
 import ContactScreen from "./screens/ContactScreen";
 import "./App.css";
+import LoginScreen from "./screens/LoginScreen";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/home" element={<HomeScreen />} />
         <Route path="/about" element={<AboutScreen />} />
         <Route path="/contact" element={<ContactScreen />} />
+        <Route path="/login" element={<LoginScreen />} />
       </Routes>
     </Router>
   );

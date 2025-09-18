@@ -1,21 +1,18 @@
 // Importa las dependencias necesarias
 import express from "express";
-import cors from "cors";
-import usuariosRouter from "./Router/router.js"; // Importa el enrutador de usuarios
+import cors from 'cors';
+import sequelize from "./config/database.js";
+import authRoutes from "./routes/AuthRoutes.js";
 
 const app = express();
-
-// Configura el middleware para parsear el cuerpo de las solicitudes JSON
 app.use(express.json());
 
-// Configura el middleware para permitir solicitudes desde diferentes dominios
 app.use(cors());
 
-// Monta el enrutador de usuarios en la ruta '/usuarios'
-app.use("/alumnos", usuariosRouter);
+// Rutas
+app.use("/auth", authRoutes);
 
-// Define el puerto en el que escuchará el servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor en ejecución http://127.0.0.1:${PORT}`);
+sequelize.sync().then(() => {
+  console.log("Base de datos sincronizada");
+  app.listen(3000, () => console.log("Servidor en http://localhost:3000"));
 });
