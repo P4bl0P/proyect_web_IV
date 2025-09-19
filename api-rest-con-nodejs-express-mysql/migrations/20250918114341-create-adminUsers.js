@@ -2,8 +2,8 @@
 
 /** @type {import('sequelize-cli').Migration} */
 export default {
-  async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('adminUsers', { // nombre cambiado
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -27,6 +27,11 @@ export default {
         type: Sequelize.STRING,
         allowNull: false
       },
+      rol: { // nuevo campo
+        type: Sequelize.ENUM('admin', 'jefatura', 'secretaría', 'tesorería', 'imagen'),
+        allowNull: false,
+        defaultValue: 'jefatura'
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -40,7 +45,8 @@ export default {
     });
   },
 
-  async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
+  async down(queryInterface) {
+    // Primero eliminamos el ENUM para evitar errores en MySQL
+    await queryInterface.dropTable('adminUsers');
   }
 };
