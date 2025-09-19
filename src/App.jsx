@@ -2,8 +2,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import HomeScreen from "./screens/HomeScreen";
 import AboutScreen from "./screens/AboutScreen";
 import ContactScreen from "./screens/ContactScreen";
-import "./App.css";
 import LoginScreen from "./screens/LoginScreen";
+import InscriptionScreen from "./screens/InscriptionScreen"
+import "./App.css";
+
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
         <Route path="/about" element={<AboutScreen />} />
         <Route path="/contact" element={<ContactScreen />} />
         <Route path="/login" element={<LoginScreen />} />
+        <Route path="/inscription" element={<InscriptionScreen />} />
       </Routes>
     </Router>
   );

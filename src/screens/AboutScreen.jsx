@@ -1,6 +1,6 @@
 import Navbar from "../components/NavBar";
 
-export default function AboutScreen() {
+const AboutScreen = () => {
   return (
     <div className="min-h-screen bg-gray-50 pt-16 p-8">
       <Navbar />
@@ -11,3 +11,5 @@ export default function AboutScreen() {
     </div>
   );
 }
+
+export default AboutScreen;

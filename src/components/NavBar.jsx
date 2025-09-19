@@ -32,7 +32,7 @@ NavButton.propTypes = {
 };
 
 
-export default function Navbar() {
+const NavBar = () => {
   return (
     <nav className="w-full bg-[#1840C4] shadow-md fixed top-0 left-0 z-50 h-14 px-4">
       <div className="flex items-center justify-between h-full">
@@ -55,3 +55,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
+export default NavBar;
