@@ -93,12 +93,18 @@ const NavBar = () => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out md:hidden z-40`}
       >
-        {/* Enlaces */}
-        <div className="flex flex-col space-y-2 px-4 py-4 mt-4">
-          <NavButton text="Inicio" to="/home" onClick={() => setIsOpen(false)} />
-          <NavButton text="Conócenos" to="/about" onClick={() => setIsOpen(false)} />
-          <NavButton text="Contacto" to="/contact" onClick={() => setIsOpen(false)} />
+        {/* Login al final, a la derecha dentro del drawer */}
+        <div className="flex justify-end py-[12px]">
           <LoginButton onClick={() => setIsOpen(false)} />
+        </div>
+
+        <div className="flex flex-col px-4 py-4 mt-4 space-y-2 ">
+          {/* Enlaces principales */}
+          <div className="flex flex-col space-y-2">
+            <NavButton text="Inicio" to="/home" onClick={() => setIsOpen(false)} />
+            <NavButton text="Conócenos" to="/about" onClick={() => setIsOpen(false)} />
+            <NavButton text="Contacto" to="/contact" onClick={() => setIsOpen(false)} />
+          </div>
         </div>
       </div>
     </nav>
