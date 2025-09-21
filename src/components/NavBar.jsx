@@ -9,11 +9,10 @@ import loginIcon from "../assets/flor_lis.png";
 /* COMPONENTES INDIVIDUALES */
 /* ===================== */
 
-function NavButton({ text, to, onClick }) {
+function NavButton({ text, to }) {
   return (
     <Link
       to={to}
-      onClick={onClick}
       className="block text-white hover:bg-indigo-500 px-4 py-2 rounded transition-colors"
     >
       {text}
@@ -27,9 +26,9 @@ NavButton.propTypes = {
   onClick: PropTypes.func,
 };
 
-function LoginButton({ onClick }) {
+function LoginButton() {
   return (
-    <Link to="/login" onClick={onClick}>
+    <Link to="/login">
       <img 
         src={loginIcon} 
         alt="Login" 
@@ -38,6 +37,10 @@ function LoginButton({ onClick }) {
     </Link>
   );
 }
+
+LoginButton.propTypes = {
+  onClick: PropTypes.func,
+};
 
 /* ===================== */
 /* NAVBAR PRINCIPAL */
@@ -104,7 +107,7 @@ const NavBar = () => {
             <NavButton text="Inicio" to="/home" onClick={() => setIsOpen(false)} />
             <NavButton text="Conócenos" to="/about" onClick={() => setIsOpen(false)} />
             <NavButton text="Contacto" to="/contact" onClick={() => setIsOpen(false)} />
-          </div>
+          </div> 
         </div>
       </div>
     </nav>
