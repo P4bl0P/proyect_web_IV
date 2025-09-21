@@ -11,7 +11,7 @@ const User = Sequelize.define('User', {
     allowNull: false
   },
   neae: {
-    type: DataTypes.BOOLEAN,
+    type: DataTypes.TEXT,
     allowNull: false
   },
   progenitor1: {
@@ -24,7 +24,8 @@ const User = Sequelize.define('User', {
   },
   emailP1: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: { isEmail: true }
   },
   telefonoP1: {
     type: DataTypes.STRING,
@@ -40,7 +41,8 @@ const User = Sequelize.define('User', {
   },
   emailP2: {
     type: DataTypes.STRING,
-    allowNull: true
+    allowNull: true,
+    validate: { isEmail: true }
   },
   telefonoP2: {
     type: DataTypes.STRING,
