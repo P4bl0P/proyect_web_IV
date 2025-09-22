@@ -6,6 +6,17 @@ const User = Sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  fechaNacimiento: {
+    type: DataTypes.DATEONLY,
+    allowNull: false,
+    validate: {
+      isBeforeToday(value) {
+        if (new Date(value) >= new Date()) {
+          throw new Error('La fecha de nacimiento debe ser anterior a hoy')
+        }
+      }
+    }
+  },
   dni: {
     type: DataTypes.STRING,
     allowNull: false

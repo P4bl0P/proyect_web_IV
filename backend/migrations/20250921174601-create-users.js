@@ -13,6 +13,10 @@ export default {
         type: Sequelize.STRING,
         allowNull: false
       },
+      fechaNacimiento: {
+        type: Sequelize.DATEONLY,
+        allowNull: false
+      },
       dni: {
         type: Sequelize.STRING(9),
         allowNull: false

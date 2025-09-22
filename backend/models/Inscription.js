@@ -23,12 +23,45 @@ const Inscription = sequelize.define('Inscription', {
 
   // Hijos/as
   child1_name: { type: DataTypes.STRING, allowNull: false },
+  child1_fechaNacimiento: {
+    type: DataTypes.DATEONLY, 
+    allowNull: false,
+    validate: {
+      isBeforeToday(value) {
+        if (new Date(value) >= new Date()) {
+          throw new Error('La fecha de nacimiento debe ser anterior a hoy')
+        }
+      }
+    }
+  },
   child1_neae: { type: DataTypes.TEXT, allowNull: true },
 
   child2_name: { type: DataTypes.STRING, allowNull: true },
+  child2_fechaNacimiento: {
+    type: DataTypes.DATEONLY, 
+    allowNull: true,
+    validate: {
+      isBeforeToday(value) {
+        if (new Date(value) >= new Date()) {
+          throw new Error('La fecha de nacimiento debe ser anterior a hoy')
+        }
+      }
+    }
+  },
   child2_neae: { type: DataTypes.TEXT, allowNull: true },
 
   child3_name: { type: DataTypes.STRING, allowNull: true },
+  child3_fechaNacimiento: {
+    type: DataTypes.DATEONLY, 
+    allowNull: true,
+    validate: {
+      isBeforeToday(value) {
+        if (new Date(value) >= new Date()) {
+          throw new Error('La fecha de nacimiento debe ser anterior a hoy')
+        }
+      }
+    }
+  },
   child3_neae: { type: DataTypes.TEXT, allowNull: true },
 
   // Comentarios adicionales

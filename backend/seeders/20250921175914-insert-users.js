@@ -2,10 +2,11 @@
 
 /** @type {import('sequelize-cli').Migration} */
 export default {
-  async up (queryInterface, Sequelize) {
+  async up (queryInterface) {
     await queryInterface.bulkInsert('Users', [
       {
         nombre: 'Juan Pérez',
+        fechaNacimiento: '2009-08-15',
         dni: '12345678A',
         neae: false,
         progenitor1: 'María López',
@@ -21,6 +22,7 @@ export default {
       },
       {
         nombre: 'Ana García',
+        fechaNcimiento: '2008-05-23',
         dni: '23456789D',
         neae: true,
         progenitor1: 'Laura García',
@@ -36,6 +38,7 @@ export default {
       },
       {
         nombre: 'Luis Martínez',
+        fechaNacimiento: '2012-08-02',
         dni: '34567890F',
         neae: false,
         progenitor1: 'Carmen Martínez',
@@ -52,7 +55,7 @@ export default {
     ], {});
   },
 
-  async down (queryInterface, Sequelize) {
+  async down (queryInterface) {
     await queryInterface.bulkDelete('Users', null, {});
   }
 };

@@ -30,12 +30,15 @@ export default {
 
       // Hijos/as
       child1_name: { type: Sequelize.STRING, allowNull: false },
+      child1_fechaNacimiento: { type: Sequelize.DATEONLY, allowNull: false},
       child1_neae: { type: Sequelize.TEXT, allowNull: true },
 
       child2_name: { type: Sequelize.STRING, allowNull: true },
+      child2_fechaNacimiento: { type: Sequelize.DATEONLY, allowNull: true},
       child2_neae: { type: Sequelize.TEXT, allowNull: true },
 
       child3_name: { type: Sequelize.STRING, allowNull: true },
+      child3_fechaNacimiento: { type: Sequelize.DATEONLY, allowNull: true},
       child3_neae: { type: Sequelize.TEXT, allowNull: true },
 
       // Comentarios
