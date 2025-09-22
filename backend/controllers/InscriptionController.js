@@ -8,8 +8,13 @@ const InscriptionController = {
     try {
       const inscriptions = await Inscription.findAll();
       res.json(inscriptions);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
+    } catch (error) {
+      if (error.name === "SequelizeValidationError") {
+        // Mapeamos los errores para enviar solo los mensajes
+        const messages = error.errors.map((e) => e.message);
+        return res.status(400).json({ errors: messages });
+      }
+      res.status(500).json({ error: error.message });
     }
   },
 
