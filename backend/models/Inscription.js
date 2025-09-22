@@ -34,6 +34,7 @@ const Inscription = sequelize.define('Inscription', {
       }
     }
   },
+  child1_dni: { type: DataTypes.STRING(9), allowNull: false},
   child1_neae: { type: DataTypes.TEXT, allowNull: true },
 
   child2_name: { type: DataTypes.STRING, allowNull: true },
@@ -48,6 +49,7 @@ const Inscription = sequelize.define('Inscription', {
       }
     }
   },
+  child2_dni: { type: DataTypes.STRING(9), allowNull: true},
   child2_neae: { type: DataTypes.TEXT, allowNull: true },
 
   child3_name: { type: DataTypes.STRING, allowNull: true },
@@ -62,6 +64,7 @@ const Inscription = sequelize.define('Inscription', {
       }
     }
   },
+  child3_dni: { type: DataTypes.STRING(9), allowNull: true},
   child3_neae: { type: DataTypes.TEXT, allowNull: true },
 
   // Comentarios adicionales

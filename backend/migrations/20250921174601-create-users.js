@@ -22,7 +22,11 @@ export default {
         allowNull: false
       },
       neae: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
+      rama: {
+        type: Sequelize.STRING,
         allowNull: false
       },
       progenitor1: {

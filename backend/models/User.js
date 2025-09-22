@@ -23,6 +23,10 @@ const User = Sequelize.define('User', {
   },
   neae: {
     type: DataTypes.TEXT,
+    allowNull: true
+  },
+  rama: {
+    type: DataTypes.STRING,
     allowNull: false
   },
   progenitor1: {
@@ -63,5 +67,26 @@ const User = Sequelize.define('User', {
   tableName: 'users', // aseguramos que Sequelize use la tabla correcta
   timestamps: true // usa createdAt y updatedAt automáticamente
 });
+
+User.beforeCreate((user) => {
+  user.rama = calcularRama(user.fechaNacimiento);
+});
+
+User.beforeUpdate((user) => {
+  user.rama = calcularRama(user.fechaNacimiento);
+});
+
+function calcularRama(fechaNacimiento) {
+  const year = new Date().getFullYear();
+  const birthYear = new Date(fechaNacimiento).getFullYear();
+  const edad = year - birthYear;
+
+  if (edad <= 8)  return 'Castores';
+  else if (edad <= 11) return 'Lobatos';
+  else if (edad <= 14) return 'Rangers';
+  else if (edad <= 17) return 'Pioneros';
+  else if (edad <= 21) return 'Rutas';
+  return 'Responsables';
+}
 
 export default User;
