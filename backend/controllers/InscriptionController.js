@@ -3,6 +3,16 @@ import User from '../models/User.js';
 
 const InscriptionController = {
 
+  // Listar todas las inscripciones
+  index: async (req, res) => {
+    try {
+      const inscriptions = await Inscription.findAll();
+      res.json(inscriptions);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+
   // Crear nueva inscripción
   create: async (req, res) => {
     try {
@@ -21,11 +31,53 @@ const InscriptionController = {
 
       // Crear usuario a partir de la inscripción
       await User.create({
-        nombre: inscription.nombre,
+        nombre: inscription.child1_name,
         fechaNacimiento: inscription.child1_fechaNacimiento,
-        dni: inscription.tutorDNI,
-        password: '123456' // puedes generar aleatoria
+        dni: inscription.child1_dni,
+        neae: inscription.child1_neae,
+        progenitor1: inscription.tutor1_name,
+        dniP1: inscription.tutor1_dni,
+        emailP1: inscription.tutor1_email,
+        telefonoP1: inscription.tutor1_phone,
+        progenitor2: inscription.tutor2_name,
+        dniP2: inscription.tutor2_dni,
+        emailP2: inscription.tutor2_email,
+        telefonoP2: inscription.tutor2_phone
       });
+
+      if (inscription.child2_name != null) {
+        await User.create({
+          nombre: inscription.child2_name,
+          fechaNacimiento: inscription.child2_fechaNacimiento,
+          dni: inscription.child2_dni,
+          neae: inscription.child2_neae,
+          progenitor1: inscription.tutor1_name,
+          dniP1: inscription.tutor1_dni,
+          emailP1: inscription.tutor1_email,
+          telefonoP1: inscription.tutor1_phone,
+          progenitor2: inscription.tutor2_name,
+          dniP2: inscription.tutor2_dni,
+          emailP2: inscription.tutor2_email,
+          telefonoP2: inscription.tutor2_phone
+        });
+      }
+
+      if (inscription.child3_name != null) {
+        await User.create({
+          nombre: inscription.child3_name,
+          fechaNacimiento: inscription.child3_fechaNacimiento,
+          dni: inscription.child3_dni,
+          neae: inscription.child3_neae,
+          progenitor1: inscription.tutor1_name,
+          dniP1: inscription.tutor1_dni,
+          emailP1: inscription.tutor1_email,
+          telefonoP1: inscription.tutor1_phone,
+          progenitor2: inscription.tutor2_name,
+          dniP2: inscription.tutor2_dni,
+          emailP2: inscription.tutor2_email,
+          telefonoP2: inscription.tutor2_phone
+        })
+      }
 
       inscription.estado = 'aceptada';
       await inscription.save();

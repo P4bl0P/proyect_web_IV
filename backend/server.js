@@ -3,7 +3,7 @@ import express from "express";
 import cors from 'cors';
 import sequelize from "./config/database.js";
 import authRoutes from "./routes/AuthRoutes.js";
-import inscriptionsRouter from './routes/InscriptionRoutes.js';
+import inscriptionsRoutes from './routes/InscriptionRoutes.js';
 
 const app = express();
 app.use(express.json());
@@ -12,7 +12,7 @@ app.use(cors());
 
 // Rutas
 app.use("/auth", authRoutes);
-app.use('/inscriptions', inscriptionsRouter);
+app.use('/inscriptions', inscriptionsRoutes);
 
 sequelize.sync().then(() => {
   console.log("Base de datos sincronizada");
