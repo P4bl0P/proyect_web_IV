@@ -9,22 +9,23 @@ const InscriptionController = {
       const inscriptions = await Inscription.findAll();
       res.json(inscriptions);
     } catch (error) {
-      if (error.name === "SequelizeValidationError") {
-        // Mapeamos los errores para enviar solo los mensajes
-        const messages = error.errors.map((e) => e.message);
-        return res.status(400).json({ errors: messages });
-      }
       res.status(500).json({ error: error.message });
     }
   },
 
   // Crear nueva inscripción
   create: async (req, res) => {
+    console.log("req.body recibido:", req.body);
     try {
       const inscription = await Inscription.create(req.body);
       res.status(201).json(inscription);
     } catch (err) {
-      res.status(400).json({ error: err.message });
+      if (err.name === "SequelizeValidationError") {
+        console.error("Error de validación:", err.errors.map(e => e.message));
+        return res.status(400).json({ errors: err.errors.map(e => e.message) });
+      }
+      console.error("Error desconocido:", err);
+      res.status(500).json({ error: "Error interno del servidor" });
     }
   },
 
