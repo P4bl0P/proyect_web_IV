@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 
+// TODO mejorar como se ven los mensajes de validaciones de error
+
 function Formulario() {
     const [formData, setFormData] = useState({
     email: "",
@@ -104,7 +106,7 @@ function Formulario() {
   };
 
   return (
-    <div className="max-w-3xl w-full bg-white rounded-2xl shadow-xl p-8">
+    <div className="border border-[#E02D2D] max-w-3xl w-full bg-white rounded-2xl shadow-xl p-8">
         {/* Título principal */}
         <h1 className="text-3xl font-bold text-[#2F4B9E] mb-6 text-center">
           Formulario de Inscripción
@@ -272,10 +274,10 @@ function Formulario() {
             <button
               type="submit"
               disabled={loading}
-              className={`px-6 py-2 rounded-xl shadow text-white transition font-semibold ${
+              className={`px-6 py-2 rounded-xl shadow text-white transition-transform duration-200 font-semibold ${
                 loading
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[#2563EB] hover:bg-[#1E40AF]"
+                  : "bg-[#E02D2D] hover:bg-[#B42323]"
               }`}
             >
               {loading ? "Enviando..." : "Enviar Inscripción"}
