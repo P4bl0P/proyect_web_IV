@@ -1,4 +1,25 @@
 import { useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
+  
+HeroSlider.propTypes = {
+  slides: PropTypes.arrayOf(
+    PropTypes.shape({
+      src: PropTypes.string.isRequired,
+      alt: PropTypes.string,
+      title: PropTypes.string,
+      subtitle: PropTypes.string,
+      ctaText: PropTypes.string,
+      ctaHref: PropTypes.string,
+    })
+  ),
+  autoPlay: PropTypes.bool,
+  interval: PropTypes.number,
+  heightClass: PropTypes.string,
+  showArrows: PropTypes.bool,
+  showDots: PropTypes.bool,
+};
+
+// TODO arreglar el como se ven las fotos en el slider
 
 export default function HeroSlider({
   slides = [],                 // [{ src, alt, title, subtitle, ctaText, ctaHref }]
@@ -24,6 +45,8 @@ export default function HeroSlider({
   function prev() {
     setIndex(i => (i - 1 + n) % n);
   }
+  
+  
   function next() {
     setIndex(i => (i + 1) % n);
   }

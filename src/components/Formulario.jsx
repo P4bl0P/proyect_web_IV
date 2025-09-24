@@ -1,8 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
 
-// TODO mejorar como se ven los mensajes de validaciones de error
-
 function Formulario() {
     const [formData, setFormData] = useState({
     email: "",
