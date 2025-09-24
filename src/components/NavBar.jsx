@@ -26,6 +26,18 @@ NavButton.propTypes = {
   onClick: PropTypes.func,
 };
 
+function LogoButton() {
+  return (
+    <Link to="/home">
+      <img 
+        src={logo} 
+        alt="Logo Grupo IV" 
+        className="h-10 rounded-full object-cover ml-2"
+      />
+    </Link>
+  );
+}
+
 function LoginButton() {
   return (
     <Link to="/login">
@@ -67,7 +79,7 @@ const NavBar = () => {
           </div>
 
           {/* Logo y texto */}
-          <img src={logo} alt="Logo Grupo IV" className="h-10 rounded-full object-cover ml-2" />
+          <LogoButton />
           <span className="ml-4 text-white font-bold text-sm leading-none">
             Grupo IV Scout Montequinto
           </span>
