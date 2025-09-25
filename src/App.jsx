@@ -4,7 +4,9 @@ import AboutScreen from "./screens/AboutScreen";
 import ContactScreen from "./screens/ContactScreen";
 import LoginScreen from "./screens/LoginScreen";
 import InscriptionScreen from "./screens/InscriptionScreen"
+import GestionScreen from "./screens/GestionScreen"
 import "./App.css";
+import PrivateRoute from "./components/PrivateRoute";
 
 
 function App() {
@@ -17,6 +19,12 @@ function App() {
         <Route path="/contact" element={<ContactScreen />} />
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/inscription" element={<InscriptionScreen />} />
+        <Route path="/gestion" element={
+            <PrivateRoute>
+              <GestionScreen />
+            </PrivateRoute>
+          } 
+        />
       </Routes>
     </Router>
   );

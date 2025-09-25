@@ -1,18 +1,18 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Squash as Hamburger } from "hamburger-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import logo from "../assets/logoIV.jpeg";
 import loginIcon from "../assets/flor_lis.png";
+import { AuthContext } from "../context/AuthContext";
 
-/* ===================== */
-/* COMPONENTES INDIVIDUALES */
-/* ===================== */
+/* COMPONENTES AUXILIARES */
 
-function NavButton({ text, to }) {
+function NavButton({ text, to, onClick }) {
   return (
     <Link
       to={to}
+      onClick={onClick}
       className="block text-white hover:bg-indigo-500 px-4 py-2 rounded transition-colors"
     >
       {text}
@@ -29,9 +29,9 @@ NavButton.propTypes = {
 function LogoButton() {
   return (
     <Link to="/home">
-      <img 
-        src={logo} 
-        alt="Logo Grupo IV" 
+      <img
+        src={logo}
+        alt="Logo Grupo IV"
         className="h-10 rounded-full object-cover ml-2"
       />
     </Link>
@@ -41,33 +41,65 @@ function LogoButton() {
 function LoginButton() {
   return (
     <Link to="/login">
-      <img 
-        src={loginIcon} 
-        alt="Login" 
+      <img
+        src={loginIcon}
+        alt="Login"
         className="h-8 cursor-pointer hover:scale-110 transition-transform duration-200"
       />
     </Link>
   );
 }
 
-LoginButton.propTypes = {
-  onClick: PropTypes.func,
-};
+/* MENÚ DE GESTIÓN */
+function GestionMenu() {
+  const { logout } = useContext(AuthContext);
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
-/* ===================== */
+  const handleLogout = () => {
+    logout();
+    navigate("/home");
+  };
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen(!open)}
+        className="bg-blue-600 px-3 py-1 rounded text-white hover:bg-blue-700"
+      >
+        Gestión
+      </button>
+      {open && (
+        <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-lg">
+          <Link
+            to="/gestion"
+            className="block px-4 py-2 hover:bg-gray-200"
+            onClick={() => setOpen(false)}
+          >
+            Ir a gestión
+          </Link>
+          <button
+            onClick={handleLogout}
+            className="w-full text-left px-4 py-2 hover:bg-gray-200"
+          >
+            Cerrar sesión
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* NAVBAR PRINCIPAL */
-/* ===================== */
-
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isLoggedIn } = useContext(AuthContext);
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-[#1840C4] shadow-md">
-      {/* Contenedor principal */}
       <div className="flex items-center justify-between h-14 px-4">
         {/* Hamburguesa + Logo */}
         <div className="flex items-center">
-          {/* Botón hamburguesa animado */}
           <div className="md:hidden -ml-4 z-50">
             <Hamburger
               toggled={isOpen}
@@ -78,7 +110,6 @@ const NavBar = () => {
             />
           </div>
 
-          {/* Logo y texto */}
           <LogoButton />
           <span className="ml-4 text-white font-bold text-sm leading-none">
             Grupo IV Scout Montequinto
@@ -90,7 +121,7 @@ const NavBar = () => {
           <NavButton text="Inicio" to="/home" />
           <NavButton text="Conócenos" to="/about" />
           <NavButton text="Contacto" to="/contact" />
-          <LoginButton />
+          {isLoggedIn ? <GestionMenu /> : <LoginButton />}
         </div>
       </div>
 
@@ -102,24 +133,20 @@ const NavBar = () => {
         ></div>
       )}
 
-      {/* Drawer móvil desde la izquierda */}
+      {/* Drawer móvil */}
       <div
         className={`fixed top-0 left-0 h-full w-64 bg-[#1840C4] shadow-lg transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out md:hidden z-40`}
       >
-        {/* Login al final, a la derecha dentro del drawer */}
-        <div className="flex justify-end py-[12px]">
-          <LoginButton onClick={() => setIsOpen(false)} />
+        <div className="flex justify-end py-[12px] pr-4">
+          {isLoggedIn ? <GestionMenu /> : <LoginButton />}
         </div>
 
         <div className="flex flex-col px-4 py-4 mt-4 space-y-2 ">
-          {/* Enlaces principales */}
-          <div className="flex flex-col space-y-2">
-            <NavButton text="Inicio" to="/home" onClick={() => setIsOpen(false)} />
-            <NavButton text="Conócenos" to="/about" onClick={() => setIsOpen(false)} />
-            <NavButton text="Contacto" to="/contact" onClick={() => setIsOpen(false)} />
-          </div> 
+          <NavButton text="Inicio" to="/home" onClick={() => setIsOpen(false)} />
+          <NavButton text="Conócenos" to="/about" onClick={() => setIsOpen(false)} />
+          <NavButton text="Contacto" to="/contact" onClick={() => setIsOpen(false)} />
         </div>
       </div>
     </nav>

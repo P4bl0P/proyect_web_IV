@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Navbar from "../components/NavBar";
+import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const LoginScreen = () => {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -16,8 +20,9 @@ const LoginScreen = () => {
       });
       const data = await res.json();
       if (res.ok) {
-        localStorage.setItem("token", data.token);
+        login(data.token); // 🔑 Guardamos token en el contexto
         setMessage("Login correcto ✅");
+        navigate("/gestion"); // 🔄 Redirigir a la pantalla de gestión
       } else {
         setMessage(data.error);
       }
@@ -28,16 +33,33 @@ const LoginScreen = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <Navbar />
-      <form onSubmit={handleLogin} className="bg-white p-6 rounded-lg shadow-lg w-96">
+      <Navbar />
+      <form
+        onSubmit={handleLogin}
+        className="bg-white p-6 rounded-lg shadow-lg w-96"
+      >
         <h1 className="text-xl font-bold mb-4">Iniciar Sesión</h1>
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full p-2 mb-3 border rounded"/>
-        <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full p-2 mb-3 border rounded"/>
-        <button className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Entrar</button>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full p-2 mb-3 border rounded"
+        />
+        <input
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full p-2 mb-3 border rounded"
+        />
+        <button className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+          Entrar
+        </button>
       </form>
       {message && <p className="mt-3">{message}</p>}
     </div>
   );
-}
+};
 
 export default LoginScreen;
