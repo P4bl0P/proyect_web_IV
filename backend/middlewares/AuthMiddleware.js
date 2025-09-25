@@ -1,17 +1,23 @@
 import jwt from "jsonwebtoken";
+import superSecretKey from "../config/jwtSecret";
 
-export const verifyToken = (req, res, next) => {
+export const generateToken = (user) => {
+  return jwt.sign(
+    { id: user.id, email: user.email }, 
+    superSecretKey, 
+    { expiresIn: "3h" } // duración del token
+  );
+};
+
+export const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
-  if (!authHeader) return res.status(401).json({ error: "No token provided" });
+  const token = authHeader && authHeader.split(" ")[1]; // formato "Bearer <token>"
 
-  const token = authHeader.split(" ")[1];
-  if (!token) return res.status(401).json({ error: "Token inválido" });
+  if (!token) return res.status(401).json({ message: "Token requerido" });
 
-  try {
-    const decoded = jwt.verify(token, "mi_secreto");
-    req.user = decoded;
+  jwt.verify(token, superSecretKey, (err, user) => {
+    if (err) return res.status(403).json({ message: "Token inválido o expirado" });
+    req.user = user; // guarda datos del usuario en la request
     next();
-  } catch (err) {
-    return res.status(403).json({ error: "Token no válido o expirado" });
-  }
+  });
 };
