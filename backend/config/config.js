@@ -11,5 +11,4 @@ export default {
     port: process.env.DB_PORT
   },
   jwtSecret: process.env.JWT_SECRET,
-  port: process.env.PORT || 3000
 };

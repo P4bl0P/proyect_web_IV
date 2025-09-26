@@ -21,10 +21,10 @@ const LoginScreen = () => {
       const data = await res.json();
       if (res.ok) {
         login(data.token); // 🔑 Guardamos token en el contexto
-        setMessage("Login correcto ✅");
-        navigate("/gestion"); // 🔄 Redirigir a la pantalla de gestión
+        setMessage(data.message);
+        navigate("/gestion");
       } else {
-        setMessage(data.error);
+        setMessage(data.error || data.message);
       }
     } catch (err) {
       setMessage("Error en el servidor");

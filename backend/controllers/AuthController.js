@@ -13,7 +13,7 @@ export const login = async (req, res) => {
 
     const token = generateToken(adminUser);
 
-    res.json({ message: "Login exitoso", token, adminUser });
+    res.status(200).json({ token, message: "Login exitoso", adminUser });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -4,6 +4,9 @@ import cors from 'cors';
 import sequelize from "./config/database.js";
 import authRoutes from "./routes/AuthRoutes.js";
 import inscriptionsRoutes from './routes/InscriptionRoutes.js';
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
