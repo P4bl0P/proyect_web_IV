@@ -78,6 +78,13 @@ function GestionMenu() {
           >
             Ir a gestión
           </Link>
+          <Link 
+            to="/editProfile"
+            className="block px-4 py-2 hover:bg-gray-200"
+            onClick={() => setOpen(false)}
+          >
+            Perfil
+          </Link>
           <button
             onClick={handleLogout}
             className="w-full text-left px-4 py-2 hover:bg-gray-200"
