@@ -1,13 +1,12 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Squash as Hamburger } from "hamburger-react";
 import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import logo from "../assets/logoIV.jpeg";
 import loginIcon from "../assets/flor_lis.png";
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 /* COMPONENTES AUXILIARES */
-
 function NavButton({ text, to, onClick }) {
   return (
     <Link
@@ -52,14 +51,16 @@ function LoginButton() {
 
 /* MENÚ DE GESTIÓN */
 function GestionMenu() {
-  const { logout } = useContext(AuthContext);
+  const { handleLogout, accessToken } = useAuth();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
+  const onLogout = () => {
+    handleLogout();
     navigate("/home");
   };
+
+  if (!accessToken) return null;
 
   return (
     <div className="relative">
@@ -70,7 +71,7 @@ function GestionMenu() {
         Gestión
       </button>
       {open && (
-        <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-lg">
+        <div className="absolute right-0 mt-2 w-44 bg-white text-black rounded shadow-lg z-50">
           <Link
             to="/gestion"
             className="block px-4 py-2 hover:bg-gray-200"
@@ -78,7 +79,7 @@ function GestionMenu() {
           >
             Ir a gestión
           </Link>
-          <Link 
+          <Link
             to="/editProfile"
             className="block px-4 py-2 hover:bg-gray-200"
             onClick={() => setOpen(false)}
@@ -86,7 +87,7 @@ function GestionMenu() {
             Perfil
           </Link>
           <button
-            onClick={handleLogout}
+            onClick={onLogout}
             className="w-full text-left px-4 py-2 hover:bg-gray-200"
           >
             Cerrar sesión
@@ -100,7 +101,8 @@ function GestionMenu() {
 /* NAVBAR PRINCIPAL */
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isLoggedIn } = useContext(AuthContext);
+  const { accessToken } = useAuth();
+  const isLoggedIn = !!accessToken;
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-[#1840C4] shadow-md">

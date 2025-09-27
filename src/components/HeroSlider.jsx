@@ -84,7 +84,7 @@ export default function HeroSlider({
             <img
               src={s.src}
               alt={s.alt ?? `slide-${i}`}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain bg-white"
               draggable="false"
             />
             {/* Overlay for texts */}

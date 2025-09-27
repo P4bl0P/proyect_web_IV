@@ -4,18 +4,21 @@ import cors from 'cors';
 import sequelize from "./config/database.js";
 import authRoutes from "./routes/AuthRoutes.js";
 import inscriptionsRoutes from './routes/InscriptionRoutes.js';
+import adminUserRoutes from './routes/AdminUserRoutes.js';
 import dotenv from "dotenv";
 
 dotenv.config();
 
 const app = express();
+
 app.use(express.json());
 
 app.use(cors());
 
 // Rutas
-app.use("/auth", authRoutes);
+app.use('/auth', authRoutes);
 app.use('/inscriptions', inscriptionsRoutes);
+app.use('/adminUsers', adminUserRoutes)
 
 sequelize.sync().then(() => {
   console.log("Base de datos sincronizada");

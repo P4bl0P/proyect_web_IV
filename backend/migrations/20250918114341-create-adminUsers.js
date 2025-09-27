@@ -32,6 +32,10 @@ export default {
         allowNull: false,
         defaultValue: 'jefatura'
       },
+      refreshToken: {
+        type: Sequelize.STRING,
+        allowNull: true // inicialmente puede ser nulo
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

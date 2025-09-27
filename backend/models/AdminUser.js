@@ -33,18 +33,18 @@ const AdminUser = sequelize.define('AdminUser', {
     type: DataTypes.ENUM('admin', 'jefatura', 'secretaría', 'tesorería', 'imagen'),
     allowNull: false,
     defaultValue: 'jefatura'
+  },
+  refreshToken: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 }, {
   tableName: 'adminUsers', // aseguramos que Sequelize use la tabla correcta
   timestamps: true // usa createdAt y updatedAt automáticamente
 });
 
-
 AdminUser.beforeCreate(async (user) => {
   user.password = await bcrypt.hash(user.password, 10);
 });
 
 export default AdminUser;
-
-
-

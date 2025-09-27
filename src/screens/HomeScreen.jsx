@@ -15,7 +15,7 @@ export default function HomeScreen() {
   return (
     <div className="w-full">
       <NavBar />
-      <HeroSlider slides={slides} interval={6000} heightClass="h-[65vh]" />
+      <HeroSlider slides={slides} interval={6000} heightClass="h-[55vh]" />
 
     </div>
   );

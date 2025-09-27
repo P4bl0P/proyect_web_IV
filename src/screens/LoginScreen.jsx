@@ -1,33 +1,24 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import Navbar from "../components/NavBar";
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext"; // ✅ Hook del Context
 import { useNavigate } from "react-router-dom";
 
 const LoginScreen = () => {
-  const { login } = useContext(AuthContext);
+  const { handleLogin } = useAuth(); // usamos la función centralizada
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleLogin = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:3000/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        login(data.token); // 🔑 Guardamos token en el contexto
-        setMessage(data.message);
-        navigate("/gestion");
-      } else {
-        setMessage(data.error || data.message);
-      }
+      await handleLogin(email, password); // se encarga de login + guardar tokens
+      setMessage("Login exitoso");
+      navigate("/gestion"); // redirige a la pantalla de gestión
     } catch (err) {
-      setMessage("Error en el servidor");
+      console.error(err);
+      setMessage(err.message || "Error de login");
     }
   };
 
@@ -35,7 +26,7 @@ const LoginScreen = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <Navbar />
       <form
-        onSubmit={handleLogin}
+        onSubmit={onSubmit}
         className="bg-white p-6 rounded-lg shadow-lg w-96"
       >
         <h1 className="text-xl font-bold mb-4">Iniciar Sesión</h1>
