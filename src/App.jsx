@@ -4,10 +4,13 @@ import AboutScreen from "./screens/AboutScreen";
 import ContactScreen from "./screens/ContactScreen";
 import LoginScreen from "./screens/LoginScreen";
 import InscriptionScreen from "./screens/InscriptionScreen";
-import GestionScreen from "./screens/GestionScreen";
-import EditProfileScreen from "./screens/EditProfileScreen"
+import GestionScreen from "./screens/privateScreens/GestionScreen";
+import EditProfileScreen from "./screens/privateScreens/EditProfileScreen"
 import "./App.css";
 import PrivateRoute from "./components/PrivateRoute";
+import JefaturaScreen from "./screens/privateScreens/JefaturaScreen";
+import TesoreriaScreen from "./screens/privateScreens/TesoreriaScreen";
+import SecretariaScreen from "./screens/privateScreens/SecretariaScreen";
 
 
 
@@ -31,6 +34,24 @@ function App() {
           <Route path="/editProfile" element={
               <PrivateRoute>
                 <EditProfileScreen />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/jefatura" element={
+              <PrivateRoute>
+                <JefaturaScreen />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/tesoreria" element={
+              <PrivateRoute>
+                <TesoreriaScreen />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/secretaria" element={
+              <PrivateRoute>
+                <SecretariaScreen />
               </PrivateRoute>
             }
           />
