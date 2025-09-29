@@ -1,5 +1,5 @@
 <p align="right">
-  <img src="assets/logoIV.jpeg" alt="Logo Grupo IV Scout Montequinto" width="80" />
+  <img src="./src/assets/logoIV.jpeg" alt="Logo Grupo IV Scout Montequinto" width="80" style="border-radius:50%;" />
 </p>
 
 # ⚜️ Grupo IV Scout Montequinto
