@@ -2,6 +2,12 @@ import { DataTypes } from 'sequelize';
 import Sequelize from '../config/database.js';
 
 const User = Sequelize.define('User', {
+  userId: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+    allowNull: false
+  },
   nombre: {
     type: DataTypes.STRING,
     allowNull: false
@@ -19,7 +25,10 @@ const User = Sequelize.define('User', {
   },
   dni: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+    is: /^[0-9]{8}[A-Za-z]$/ // 8 números + 1 letra
+    }
   },
   neae: {
     type: DataTypes.TEXT,
@@ -27,7 +36,7 @@ const User = Sequelize.define('User', {
   },
   rama: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
   progenitor1: {
     type: DataTypes.STRING,
@@ -35,7 +44,10 @@ const User = Sequelize.define('User', {
   },
   dniP1: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+    is: /^[0-9]{8}[A-Za-z]$/ // 8 números + 1 letra
+    }
   },
   emailP1: {
     type: DataTypes.STRING,
@@ -44,7 +56,10 @@ const User = Sequelize.define('User', {
   },
   telefonoP1: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+    is: /^[0-9]{9}$/ // exactamente 9 números
+    }
   },
   progenitor2: {
     type: DataTypes.STRING,
@@ -52,7 +67,10 @@ const User = Sequelize.define('User', {
   },
   dniP2: {
     type: DataTypes.STRING,
-    allowNull: true
+    allowNull: true,
+    validate: {
+    is: /^[0-9]{8}[A-Za-z]$/ // 8 números + 1 letra
+    }
   },
   emailP2: {
     type: DataTypes.STRING,
@@ -61,32 +79,14 @@ const User = Sequelize.define('User', {
   },
   telefonoP2: {
     type: DataTypes.STRING,
-    allowNull: true
+    allowNull: true,
+    validate: {
+    is: /^[0-9]{9}$/ // exactamente 9 números
+    }
   }
 }, {
   tableName: 'users', // aseguramos que Sequelize use la tabla correcta
   timestamps: true // usa createdAt y updatedAt automáticamente
 });
-
-User.beforeCreate((user) => {
-  user.rama = calcularRama(user.fechaNacimiento);
-});
-
-User.beforeUpdate((user) => {
-  user.rama = calcularRama(user.fechaNacimiento);
-});
-
-function calcularRama(fechaNacimiento) {
-  const year = new Date().getFullYear();
-  const birthYear = new Date(fechaNacimiento).getFullYear();
-  const edad = year - birthYear;
-
-  if (edad <= 8)  return 'Castores';
-  else if (edad <= 11) return 'Lobatos';
-  else if (edad <= 14) return 'Rangers';
-  else if (edad <= 17) return 'Pioneros';
-  else if (edad <= 21) return 'Rutas';
-  return 'Responsables';
-}
 
 export default User;

@@ -2,39 +2,44 @@
 
 /** @type {import('sequelize-cli').Migration} */
 export default {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('adminUsers', {
-      adminId: {
+  async up (queryInterface, Sequelize) {
+    await queryInterface.createTable('children', {
+      childId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false
       },
-      firstName: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      lastName: {
+      dni: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      email: {
+      fechaNacimiento: {
+        type: Sequelize.DATEONLY,
+        allowNull: false
+      },
+      rama: {
         type: Sequelize.STRING,
+        allowNull: false
+      },
+      status: {
+        type: Sequelize.ENUM('Pendiente', 'Aceptado', 'Rechazado'),
+        allowNull: true,
+        defaultValue: 'Pendiente'
+      },
+      inscriptionId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        unique: true
-      },
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      rol: {
-        type: Sequelize.ENUM('admin', 'jefatura', 'secretaría', 'tesorería', 'imagen'),
-        allowNull: false,
-        defaultValue: 'jefatura'
-      },
-      refreshToken: {
-        type: Sequelize.STRING,
-        allowNull: true
+        references: {
+          model: 'inscriptions',
+          key: 'inscriptionId'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -49,8 +54,7 @@ export default {
     });
   },
 
-  async down(queryInterface) {
-    // Primero eliminamos el ENUM para evitar errores en MySQL
-    await queryInterface.dropTable('adminUsers');
+  async down (queryInterface) {
+    await queryInterface.dropTable('children');
   }
 };

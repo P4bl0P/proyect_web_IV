@@ -1,4 +1,3 @@
-// controllers/authController.js
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import AdminUser from '../models/AdminUser.js';
@@ -10,7 +9,7 @@ const REFRESH_TOKEN_SECRET = 'tu_secreto_refresh';
 // Generar access token
 const generateAccessToken = (user) => {
   return jwt.sign(
-    { id: user.id, email: user.email, rol: user.rol },
+    { id: user.adminId, email: user.email, rol: user.rol },
     ACCESS_TOKEN_SECRET,
     { expiresIn: '15m' } // 15 minutos
   );
@@ -19,7 +18,7 @@ const generateAccessToken = (user) => {
 // Generar refresh token
 const generateRefreshToken = (user) => {
   return jwt.sign(
-    { id: user.id, email: user.email, rol: user.rol },
+    { id: user.adminId, email: user.email, rol: user.rol },
     REFRESH_TOKEN_SECRET,
     { expiresIn: '1d' } // 7 días
   );
@@ -33,8 +32,14 @@ export const login = async (req, res) => {
     const user = await AdminUser.findOne({ where: { email } });
     if (!user) return res.status(401).json({ message: 'Usuario no encontrado' });
 
+    // para depurar
+    console.log("Body recibido:", req.body);
+    console.log("Usuario encontrado:", user);
+    console.log("Comparando contraseña:", password, "con hash:", user.password);
+
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(401).json({ message: 'Contraseña incorrecta' });
+    console.log(isMatch)
+    if (!isMatch) return res.status(401).json({ message: 'Contraseña inscorrecta' });
 
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);

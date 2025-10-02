@@ -2,12 +2,12 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
-      id: {
-        allowNull: false,
+    await queryInterface.createTable('users', {
+      userId: {
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        allowNull: false
       },
       nombre: {
         type: Sequelize.STRING,
@@ -18,23 +18,23 @@ export default {
         allowNull: false
       },
       dni: {
-        type: Sequelize.STRING(9),
+        type: Sequelize.STRING,
         allowNull: false
       },
       neae: {
         type: Sequelize.TEXT,
-        allowNull: false
+        allowNull: true
       },
       rama: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
       progenitor1: {
         type: Sequelize.STRING,
         allowNull: false
       },
       dniP1: {
-        type: Sequelize.STRING(9),
+        type: Sequelize.STRING,
         allowNull: false
       },
       emailP1: {
@@ -42,7 +42,7 @@ export default {
         allowNull: false
       },
       telefonoP1: {
-        type: Sequelize.STRING(9),
+        type: Sequelize.STRING,
         allowNull: false
       },
       progenitor2: {
@@ -50,7 +50,7 @@ export default {
         allowNull: true
       },
       dniP2: {
-        type: Sequelize.STRING(9),
+        type: Sequelize.STRING,
         allowNull: true
       },
       emailP2: {
@@ -58,18 +58,18 @@ export default {
         allowNull: true
       },
       telefonoP2: {
-        type: Sequelize.STRING(9),
+        type: Sequelize.STRING,
         allowNull: true
       },
       createdAt: {
-        allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        allowNull: false,
+        defaultValue: Sequelize.fn('NOW')
       },
       updatedAt: {
-        allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        allowNull: false,
+        defaultValue: Sequelize.fn('NOW')
       }
     });
   },

@@ -4,7 +4,6 @@ import { useAuth } from "../context/AuthContext";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
-  console.log(user);
 
   if (loading) return <div>Cargando...</div>;
 

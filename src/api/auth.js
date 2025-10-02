@@ -1,3 +1,5 @@
+
+
 // src/api/auth.js
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -7,7 +9,14 @@ export const login = async (email, password) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
   });
-  if (!res.ok) throw new Error('Login failed');
+  if (!res.ok) {
+    console.log("Login request:", { email, password });
+    console.log(res);
+    console.log(email, password);
+    console.log("Status:", res.status);
+    console.log("Body:", await res.text());
+    throw new Error('Login failed');
+  }
   return res.json(); // devuelve { accessToken, refreshToken }
 };
 

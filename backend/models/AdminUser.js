@@ -3,7 +3,7 @@ import sequelize from '../config/database.js'; // ajusta la ruta a tu configurac
 import bcrypt from 'bcrypt';
 
 const AdminUser = sequelize.define('AdminUser', {
-  id: {
+  adminId: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
