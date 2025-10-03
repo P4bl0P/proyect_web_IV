@@ -20,7 +20,10 @@ Child.init({
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-    is: /^[0-9]{8}[A-Za-z]$/ // 8 números + 1 letra
+      is: {
+        args: /^[0-9]{8}[A-Za-z]$/,
+        msg: 'El DNI debe tener 8 números seguidos de una letra'
+      }
     }
   },
   fechaNacimiento: { 
@@ -47,10 +50,10 @@ Child.init({
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-        model: "inscriptions",
-        key: "inscriptionId"
+        model: 'inscriptions',
+        key: 'inscriptionId'
     },
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
   }
 }, {
   sequelize,
@@ -68,15 +71,17 @@ Child.beforeUpdate((child) => {
 });
 
 function calcularRama(fechaNacimiento) {
-  const year = new Date().getFullYear();
-  const birthYear = new Date(fechaNacimiento).getFullYear();
-  const edad = year - birthYear;
+  const hoy = new Date();
+  const nacimiento = new Date(fechaNacimiento);
+  let edad = hoy.getFullYear() - nacimiento.getFullYear();
+  const m = hoy.getMonth() - nacimiento.getMonth();
+  if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) edad--;
 
-  if (edad <= 8)  return 'Castores';
-  else if (edad <= 11) return 'Lobatos';
-  else if (edad <= 14) return 'Rangers';
-  else if (edad <= 17) return 'Pioneros';
-  else if (edad <= 21) return 'Rutas';
+  if (edad <= 8) return 'Castores';
+  if (edad <= 11) return 'Lobatos';
+  if (edad <= 14) return 'Rangers';
+  if (edad <= 17) return 'Pioneros';
+  if (edad <= 21) return 'Rutas';
   return 'Responsables';
 }
 

@@ -26,7 +26,10 @@ Inscription.init({
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-    is: /^[0-9]{8}[A-Za-z]$/ // 8 números + 1 letra
+      is: {
+        args: /^[0-9]{8}[A-Za-z]$/,
+        msg: 'El DNI debe tener 8 números seguidos de una letra'
+      }
     }
   },
   tutor1_email: {
@@ -38,7 +41,10 @@ Inscription.init({
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-    is: /^[0-9]{9}$/ // exactamente 9 números
+      is: {
+        args: /^[0-9]{9}$/,
+        msg: 'El teléfono debe tener 9 números exactamente'
+      }
     }
   },
 
@@ -48,7 +54,10 @@ Inscription.init({
     type: DataTypes.STRING,
     allowNull: true,
     validate: {
-    is: /^[0-9]{8}[A-Za-z]$/ // 8 números + 1 letra
+      is: {
+        args: /^[0-9]{8}[A-Za-z]$/,
+        msg: 'El DNI debe tener 8 números seguidos de una letra'
+      }
     }
   },
   tutor2_email: {
@@ -60,8 +69,15 @@ Inscription.init({
     type: DataTypes.STRING, 
     allowNull: true,
     validate: {
-    is: /^[0-9]{9}$/ // exactamente 9 números
+      is: {
+        args: /^[0-9]{9}$/,
+        msg: 'El teléfono debe tener 9 números exactamente'
+      }
     }
+  },
+  comments: {
+    type: DataTypes.TEXT,
+    allowNull: true
   }
 }, {
   sequelize,

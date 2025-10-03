@@ -1,5 +1,22 @@
-import Inscription from '../models/Inscription.js';
+import models from '../models/Index.js';
 import User from '../models/User.js';
+
+const { Inscription, Child } = models;
+
+function calcularRama(fechaNacimiento) {
+  const hoy = new Date();
+  const nacimiento = new Date(fechaNacimiento);
+  let edad = hoy.getFullYear() - nacimiento.getFullYear();
+  const m = hoy.getMonth() - nacimiento.getMonth();
+  if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) edad--;
+
+  if (edad <= 8) return 'Castores';
+  if (edad <= 11) return 'Lobatos';
+  if (edad <= 14) return 'Rangers';
+  if (edad <= 17) return 'Pioneros';
+  if (edad <= 21) return 'Rutas';
+  return 'Responsables';
+}
 
 const InscriptionController = {
 
@@ -17,17 +34,32 @@ const InscriptionController = {
 
   // Crear nueva inscripción
   create: async (req, res) => {
-    console.log('req.body recibido:', req.body);
     try {
-      const inscription = await Inscription.create(req.body);
-      res.status(201).json(inscription);
-    } catch (err) {
-      if (err.name === 'SequelizeValidationError') {
-        console.error('Error de validación:', err.errors.map(e => e.message));
-        return res.status(400).json({ errors: err.errors.map(e => e.message) });
+      const { children, ...inscriptionData } = req.body;
+
+      // Crear la inscripción
+      const newInscription = await Inscription.create(
+        { ...inscriptionData },
+      );
+      
+      if (children && Array.isArray(children) && children.length > 0) {
+        const childrenToCreate = children.map(child => ({
+          ...child,
+          rama: calcularRama(child.fechaNacimiento),
+          inscriptionId: newInscription.inscriptionId // vínculo con la inscripción
+        }));
+
+        await Child.bulkCreate(childrenToCreate);
       }
-      console.error('Error desconocido:', err);
-      res.status(500).json({ error: 'Error interno del servidor' });
+      res.status(201).json({ 
+        message: "Inscripción y hijos creados correctamente", 
+        inscription: newInscription, 
+        children: children 
+      });
+      
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ message: "Error al crear la inscripción", error: error.errors || error.message });
     }
   },
 
