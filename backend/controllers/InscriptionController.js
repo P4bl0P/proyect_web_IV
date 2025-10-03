@@ -24,7 +24,13 @@ const InscriptionController = {
   index: async (req, res) => {
     try {
       const inscriptions = await Inscription.findAll({
-        order: [['createdAt', 'ASC']]
+        order: [['createdAt', 'ASC']],
+        include: [
+          {
+            model: Child,
+            as: 'children'
+          }
+        ]
       });
       res.json(inscriptions);
     } catch (error) {
