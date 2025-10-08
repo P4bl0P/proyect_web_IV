@@ -1,150 +1,140 @@
-import { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-  
-HeroSlider.propTypes = {
-  slides: PropTypes.arrayOf(
-    PropTypes.shape({
-      src: PropTypes.string.isRequired,
-      alt: PropTypes.string,
-      title: PropTypes.string,
-      subtitle: PropTypes.string,
-      ctaText: PropTypes.string,
-      ctaHref: PropTypes.string,
-    })
-  ),
-  autoPlay: PropTypes.bool,
-  interval: PropTypes.number,
-  heightClass: PropTypes.string,
-  showArrows: PropTypes.bool,
-  showDots: PropTypes.bool,
-};
+import { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-// TODO arreglar el como se ven las fotos en el slider
+// Importa tus imágenes desde src/assets
+import slide1 from '../assets/slide1.jpg';
+import slide2 from '../assets/slide2.jpg';
+import slide3 from '../assets/slide3.jpg';
+import slide4 from '../assets/slide4.jpg';
 
-export default function HeroSlider({
-  slides = [],                 // [{ src, alt, title, subtitle, ctaText, ctaHref }]
-  autoPlay = true,
-  interval = 5000,
-  heightClass='aspect-video',
-  showArrows = true,
-  showDots = true,
-}) {
-  const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const touchStartX = useRef(null);
-  const n = slides.length;
+export default function ScoutSlider() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const slides = [
+    {
+      id: 1,
+      title: "Bienvenidos al Grupo Scout IV",
+      description: "Formando personas comprometidas con su comunidad desde 1985",
+      image: slide1
+    },
+    {
+      id: 2,
+      title: "Aventura y Naturaleza",
+      description: "Descubre el mundo a través de experiencias únicas y campamentos inolvidables",
+      image: slide2
+    },
+    {
+      id: 3,
+      title: "Valores y Amistad",
+      description: "Construimos lazos que duran toda la vida mientras aprendemos valores fundamentales",
+      image: slide3
+    },
+    {
+      id: 4,
+      title: "Únete a Nosotros",
+      description: "Inscribe a tus hijos en una experiencia transformadora",
+      image: slide4
+    }
+  ];
 
   useEffect(() => {
-    if (!autoPlay || paused || n <= 1) return;
-    const id = setInterval(() => {
-      setIndex(i => (i + 1) % n);
-    }, interval);
-    return () => clearInterval(id);
-  }, [autoPlay, paused, interval, n]);
+    if (!isHovered) {
+      const interval = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
+      }, 5000);
 
-  function prev() {
-    setIndex(i => (i - 1 + n) % n);
-  }
-  
-  
-  function next() {
-    setIndex(i => (i + 1) % n);
-  }
+      return () => clearInterval(interval);
+    }
+  }, [isHovered, slides.length]);
 
-  // touch handlers for swipe
-  function onTouchStart(e) {
-    touchStartX.current = e.touches[0].clientX;
-  }
-  function onTouchEnd(e) {
-    if (touchStartX.current == null) return;
-    const dx = (e.changedTouches[0].clientX - touchStartX.current);
-    if (dx > 50) prev();
-    else if (dx < -50) next();
-    touchStartX.current = null;
-  }
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
 
-  if (n === 0) return null;
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
 
   return (
-    <section
-      className={`relative w-full ${heightClass} overflow-hidden`}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
-      aria-roledescription='carousel'
+    <div 
+      className="relative w-full h-[50vh] overflow-hidden rounded-2xl shadow-2xl"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Slides wrapper */}
-      <div
-        className='flex h-full transition-transform duration-700 ease-out'
-        style={{ transform: `translateX(-${index * 100}%)`, width: `${n * 100}%` }}
-      >
-        {slides.map((s, i) => (
-          <div key={i} className='flex-none w-full h-full relative'>
-            <img
-              src={s.src}
-              alt={s.alt ?? `slide-${i}`}
-              className='w-full h-full object-contain bg-white'
-              draggable='false'
-            />
-            {/* Overlay for texts */}
-            <div className='absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end p-6 md:p-12'>
-              <div className='text-white max-w-2xl'>
-                {s.title && <h2 className='text-2xl md:text-4xl font-semibold'>{s.title}</h2>}
-                {s.subtitle && <p className='mt-2 text-sm md:text-lg opacity-90'>{s.subtitle}</p>}
-                {s.ctaText && (
-                  <a
-                    href={s.ctaHref || '#'}
-                    className='inline-block mt-4 px-4 py-2 bg-white text-black rounded-md text-sm font-medium'
-                  >
-                    {s.ctaText}
-                  </a>
-                )}
+      {/* Slides */}
+      <div className="relative w-full h-full">
+        {slides.map((slide, index) => (
+          <div
+            key={slide.id}
+            className={`absolute inset-0 transition-all duration-700 ease-in-out ${
+              index === currentSlide
+                ? 'opacity-100 translate-x-0'
+                : index < currentSlide
+                ? 'opacity-0 -translate-x-full'
+                : 'opacity-0 translate-x-full'
+            }`}
+          >
+            <div 
+              className="w-full h-full relative flex flex-col items-center justify-center text-white p-8"
+              style={{
+                backgroundImage: `url(${slide.image})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            >
+              {/* Overlay oscuro para mejorar legibilidad del texto */}
+              <div className="absolute inset-0 bg-black/40"></div>
+              
+              {/* Contenido */}
+              <div className="relative z-10 text-center">
+                <h2 className="text-5xl font-bold mb-4 drop-shadow-2xl">
+                  {slide.title}
+                </h2>
+                <p className="text-xl max-w-2xl drop-shadow-xl">
+                  {slide.description}
+                </p>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Arrows */}
-      {showArrows && n > 1 && (
-        <>
-          <button
-            onClick={prev}
-            aria-label='Anterior'
-            className='absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-2'
-          >
-            {/* Left chevron */}
-            <svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M15 19l-7-7 7-7' />
-            </svg>
-          </button>
-          <button
-            onClick={next}
-            aria-label='Siguiente'
-            className='absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-2'
-          >
-            {/* Right chevron */}
-            <svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M9 5l7 7-7 7' />
-            </svg>
-          </button>
-        </>
-      )}
+      {/* Botones de navegación */}
+      <button
+        onClick={prevSlide}
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50"
+        aria-label="Slide anterior"
+      >
+        <ChevronLeft size={32} />
+      </button>
+      <button
+        onClick={nextSlide}
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50"
+        aria-label="Slide siguiente"
+      >
+        <ChevronRight size={32} />
+      </button>
 
-      {/* Dots */}
-      {showDots && n > 1 && (
-        <div className='absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2'>
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setIndex(i)}
-              aria-label={`Ir a la diapositiva ${i + 1}`}
-              className={`w-3 h-3 rounded-full ${i === index ? 'bg-white' : 'bg-white/50'}`}
-            />
-          ))}
-        </div>
-      )}
-    </section>
+      {/* Indicadores (dots) */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => goToSlide(index)}
+            className={`transition-all duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-white/50 ${
+              index === currentSlide
+                ? 'w-12 h-3 bg-white'
+                : 'w-3 h-3 bg-white/50 hover:bg-white/70'
+            }`}
+            aria-label={`Ir al slide ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
